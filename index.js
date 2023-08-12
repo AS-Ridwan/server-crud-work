@@ -45,7 +45,10 @@ async function run() {
 
     app.post("/user", async (req, res) => {
       const user = req.body;
+      console.log("my user", user);
       const result = await users.insertOne(user);
+
+      console.log("my result", result);
       res.send(result);
     });
   } finally {
