@@ -1,5 +1,7 @@
 const express = require("express");
 
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
@@ -15,7 +17,6 @@ app.get("/", (req, res) => {
 // crudprac1
 // RbXtUul1umI9crPP
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
   "mongodb+srv://crudprac1:RbXtUul1umI9crPP@cluster0.usaeouj.mongodb.net/?retryWrites=true&w=majority";
 
@@ -38,16 +39,27 @@ async function run() {
       const query = {};
       const cursor = users.find(query);
       const allUsers = await cursor.toArray();
-      console.log("my all users", allUsers);
+      // console.log("my all users", allUsers);
       res.send(allUsers);
     });
 
     app.post("/user", async (req, res) => {
       const user = req.body;
-      console.log("my user", user);
+      // console.log("my user", user);
       const result = await users.insertOne(user);
 
-      console.log("my result", result);
+      res.send(result);
+    });
+
+    app.delete("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await users.deleteOne(query);
+      if (result.deletedCount === 1) {
+        console.log("Successfully deleted one document.");
+      } else {
+        console.log("No documents matched the query. Deleted 0 documents.");
+      }
       res.send(result);
     });
   } finally {
