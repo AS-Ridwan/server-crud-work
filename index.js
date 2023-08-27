@@ -43,7 +43,12 @@ async function run() {
       res.send(allUsers);
     });
 
-    app.get("/user/:id", async (req, res) => {});
+    app.get("/user/:id", async (req, res) => {
+      const query = {};
+      const singleUser = await users.findOne(query);
+      // console.log(singleUser);
+      res.send(singleUser);
+    });
 
     app.post("/user", async (req, res) => {
       const user = req.body;
