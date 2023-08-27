@@ -43,6 +43,8 @@ async function run() {
       res.send(allUsers);
     });
 
+    app.get("/user/:id", async (req, res) => {});
+
     app.post("/user", async (req, res) => {
       const user = req.body;
       // console.log("my user", user);
