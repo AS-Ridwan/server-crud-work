@@ -51,6 +51,24 @@ async function run() {
       res.send(singleUser);
     });
 
+    app.put("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const newUser = req.body;
+
+      const filter = { _id: new ObjectId(id) };
+      // this option instructs the method to create a document if no documents match the filter
+      const options = { upsert: true };
+      // create a document that sets the plot of the movie
+      const updateDoc = {
+        $set: {
+          name: newUser.name,
+          email: newUser.email,
+        },
+      };
+      const result = await users.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
+
     app.post("/user", async (req, res) => {
       const user = req.body;
       // console.log("my user", user);
