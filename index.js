@@ -44,7 +44,8 @@ async function run() {
     });
 
     app.get("/user/:id", async (req, res) => {
-      const query = {};
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
       const singleUser = await users.findOne(query);
       // console.log(singleUser);
       res.send(singleUser);
