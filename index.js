@@ -51,6 +51,13 @@ async function run() {
       res.send(singleUser);
     });
 
+    app.get("/userCount", async (req, res) => {
+      const query = {};
+      const cursor = users.find(query);
+      const count = await cursor.count();
+      res.json(count);
+    });
+
     app.put("/user/:id", async (req, res) => {
       const id = req.params.id;
       const newUser = req.body;
